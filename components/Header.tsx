@@ -6,9 +6,22 @@ import {
   Search,
 } from "lucide-react";
 import Image from "next/image";
-import React from "react";
+import React, { ReactHTMLElement } from "react";
 
-const Header = () => {
+interface UserInt{
+    id: number;
+    username: string;
+    password: string;
+    name: string;
+    role: string;
+    organization: string;
+}
+
+interface HeaderProps {
+    currentUser : UserInt | null
+}
+
+const Header:React.FC<HeaderProps> = ({currentUser}) => {
   return (
     <header className="h-16 border-b border-[#edeff2] bg-white flex items-center justify-between px-4">
       <div className="flex items-center gap-4 flex-1 hover:cursor-pointer">
@@ -33,7 +46,7 @@ const Header = () => {
         <div className=" flex justify-center items-center gap-5 text-[#0E1E30] hover:cursor-pointer">
           <Image height={40} width={40} alt="logo" src="/user.png" />
           <div className=" flex flex-col ">
-            <h1>Anand Kumar</h1>
+            <h1>{currentUser?.name}</h1>
             <p className=" text-[#8C93A6]">Admin</p>
           </div>
           <ChevronDown></ChevronDown>
