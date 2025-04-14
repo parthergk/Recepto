@@ -16,6 +16,7 @@ interface UserInt{
 export default function Home() {
   const [loggedIn, setLoggedIn] = useState<boolean>(false);
   const [currentUser, setCurrentUser] = useState<null | UserInt>(null);
+  const [organization,setOrganization] = useState<string>('');
 
   useEffect(() => {
       const storedUser = localStorage.getItem('receptoCurrentUser');
@@ -24,7 +25,7 @@ export default function Home() {
         const user = JSON.parse(storedUser);
         setCurrentUser(user);
         setLoggedIn(true);
-        // loadData(user.organization);
+        setOrganization(user.organization);
       } else {
         loginprompt();
       }
@@ -44,7 +45,7 @@ export default function Home() {
         setCurrentUser(user);
         setLoggedIn(true);
         localStorage.setItem('receptoCurrentUser', JSON.stringify(user));
-        // loadData(user.organization);
+        setOrganization(user.organization);
       } else {
         alert("Invalid login. Please try again.");
         loginprompt();
@@ -65,7 +66,7 @@ export default function Home() {
       <div className="flex-1 flex flex-col overflow-hidden">
         <Header currentUser={currentUser} />
         <main className="flex-1 overflow-auto">
-          <Main/>
+          <Main organization={organization}/>
         </main>
       </div>
     </div>
