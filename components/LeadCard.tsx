@@ -8,6 +8,7 @@ import {
   Users,
 } from "lucide-react";
 import Image from "next/image";
+import LeadScore from "./LeadScore";
 
 type Lead = {
   id: string;
@@ -34,7 +35,6 @@ interface Props {
 
 const LeadCard: React.FC<Props> = ({ lead, setShowAssignModal }) => {
   const [currentLead, setCurrentLead] = useState<Lead>(lead);
-
   const unlockLead = () => {
     setCurrentLead({ ...currentLead, unlocked: true });
   };
@@ -43,16 +43,7 @@ const LeadCard: React.FC<Props> = ({ lead, setShowAssignModal }) => {
     setCurrentLead({ ...currentLead, liked });
   };
 
-  const renderScore = (score: number) => {
-    const colorClass = score >= 90 ? "bg-blue-500" : "bg-green-500";
-    return (
-      <div
-        className={`text-sm font-semibold text-white py-1 px-2 rounded ${colorClass}`}
-      >
-        {score}
-      </div>
-    );
-  };
+  
 
   return (
     <div
@@ -128,7 +119,7 @@ const LeadCard: React.FC<Props> = ({ lead, setShowAssignModal }) => {
                   </button>
                 )}
 
-                {renderScore(currentLead.score)}
+                <LeadScore score={currentLead.score}/>
 
                 <div className="flex items-center gap-2">
                   <button
