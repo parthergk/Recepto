@@ -10,36 +10,26 @@ type Lead = {
   message: string;
   foundTime: string;
   source: string;
-  unlocked: boolean;
   credits: number;
   score: number;
   liked: boolean | null;
-  assignedTo: string | null;
   groupName?: string;
   contacts?: string[];
+  unlocked?: boolean;
+  assignedTo?: string;
 };
 
 interface Props {
-  organization: string;
   setShowAssignModal: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const LeadsList: React.FC<Props> = ({ organization, setShowAssignModal }) => {
+const LeadsList: React.FC<Props> = ({ setShowAssignModal }) => {
   const [leads, setLeads] = useState<Lead[]>([]);
 
   useEffect(() => {
-    const storedLeads = localStorage.getItem(`recepto_leads_${organization}`);
-    if (storedLeads) {
-      setLeads(JSON.parse(storedLeads));
-    } else {
-      const initialLeads = generateLeads();
-      setLeads(initialLeads);
-      localStorage.setItem(
-        `recepto_leads_${organization}`,
-        JSON.stringify(initialLeads)
-      );
-    }
-  }, [organization]);
+    const mockLeads = generateLeads();
+    setLeads(mockLeads);
+  }, []);
 
   return (
     <div className="space-y-4 px-10">
@@ -59,21 +49,20 @@ export default LeadsList;
 function generateLeads(): Lead[] {
   const mockLeads: Lead[] = [];
 
-  for (let i = 0; i < 3; i++) {
+  for (let i = 0; i < 2; i++) {
     mockLeads.push({
       id: `receptonet-${i}`,
       type: "receptonet",
       name: `Jenny${i}`,
       nameVisible: false,
       location: "Mumbai, India",
-      message: "Looking for recommendations on product analytics tools...",
+      message: "Looking for recommendations on product analytics tools for our B2B SaaS platform. Currently evaluating options for a team of 50 ...read more",
       foundTime: i === 0 ? "Today" : `${i} hours ago`,
       source: "ReceptoNet",
-      unlocked: false,
       credits: Math.floor(Math.random() * 4),
       score: Math.floor(Math.random() * 101),
       liked: null,
-      assignedTo: null,
+      unlocked: false,
     });
   }
 
@@ -84,16 +73,16 @@ function generateLeads(): Lead[] {
       name: "Jennifer Markus",
       nameVisible: true,
       location: "Mumbai, India",
-      message: "A team is seeking a motivated Business Development Executive...",
+      message: "A team from *company name mentioned* is seeking a highly motivated Business Development Executive to outreach and secure bot...",
       foundTime: i === 0 ? "Today" : `${i} hours ago`,
       source: "Org's Network",
       groupName: "Group name",
       contacts: ["John Doe", "Jane Smith", "Mark Johnson"],
-      unlocked: false,
       credits: Math.floor(Math.random() * 4),
       score: Math.floor(Math.random() * 101),
       liked: null,
-      assignedTo: null,
+      unlocked: false,
+      assignedTo: i === 0 ? "Mark" : undefined,
     });
   }
 

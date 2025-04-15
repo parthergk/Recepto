@@ -1,5 +1,12 @@
 import React, { useState } from "react";
-import { Clock, LocateIcon, Mail, MapPin, ThumbsDown, ThumbsUp, User, Users } from "lucide-react";
+import {
+  Clock,
+  Mail,
+  MapPin,
+  ThumbsDown,
+  ThumbsUp,
+  Users,
+} from "lucide-react";
 import Image from "next/image";
 
 type Lead = {
@@ -11,13 +18,13 @@ type Lead = {
   message: string;
   foundTime: string;
   source: string;
-  unlocked: boolean;
   credits: number;
   score: number;
   liked: boolean | null;
-  assignedTo: string | null;
   groupName?: string;
   contacts?: string[];
+  unlocked?: boolean;
+  assignedTo?: string;
 };
 
 interface Props {
@@ -28,34 +35,12 @@ interface Props {
 const LeadCard: React.FC<Props> = ({ lead, setShowAssignModal }) => {
   const [currentLead, setCurrentLead] = useState<Lead>(lead);
 
-  const openAssignModal = (lead: Lead) => {
-    setShowAssignModal(true);
-  };
-
   const unlockLead = () => {
-    const updatedLead = { ...currentLead, unlocked: true };
-    setCurrentLead(updatedLead);
-    updateLeadInStorage(updatedLead);
+    setCurrentLead({ ...currentLead, unlocked: true });
   };
 
-  const handleReaction = (isLike: boolean) => {
-    const updatedLead = { ...currentLead, liked: isLike };
-    setCurrentLead(updatedLead);
-    updateLeadInStorage(updatedLead);
-  };
-
-  const updateLeadInStorage = (updatedLead: Lead) => {
-    const org = localStorage.getItem("recepto_current_org");
-    if (!org) return;
-
-    const leadsRaw = localStorage.getItem(`recepto_leads_${org}`);
-    if (!leadsRaw) return;
-
-    const leads: Lead[] = JSON.parse(leadsRaw);
-    const updatedLeads = leads.map((l) =>
-      l.id === updatedLead.id ? updatedLead : l
-    );
-    localStorage.setItem(`recepto_leads_${org}`, JSON.stringify(updatedLeads));
+  const handleReaction = (liked: boolean) => {
+    setCurrentLead({ ...currentLead, liked });
   };
 
   const renderScore = (score: number) => {
@@ -71,19 +56,24 @@ const LeadCard: React.FC<Props> = ({ lead, setShowAssignModal }) => {
 
   return (
     <div
-      key={currentLead.id}
       className={`bg-white border-l-4 ${
         currentLead.type === "receptonet"
           ? "border-orange-500"
           : "border-green-500"
       } shadow-sm rounded-md overflow-hidden`}
     >
-      <div className=" py-2.5 px-5">
+      <div className="py-2.5 px-5">
         <div className="flex flex-col justify-between">
           <div className="flex justify-between">
-            <div className=" flex gap-2">
+            <div className="flex gap-2">
               <div className="rounded-lg flex items-center justify-center">
-                <Image alt="user" height={36} width={36} src="/leadUser.png" className=" rounded-lg" />
+                <Image
+                  alt="user"
+                  height={36}
+                  width={36}
+                  src="/leadUser.png"
+                  className="rounded-lg"
+                />
               </div>
               <div className="flex flex-col">
                 <h3 className="font-medium text-sm text-[#11263C]">
@@ -92,7 +82,7 @@ const LeadCard: React.FC<Props> = ({ lead, setShowAssignModal }) => {
                     : currentLead.name.substring(0, 4) + "XXXXX"}
                 </h3>
                 <div className="text-gray-400 text-xs flex items-center gap-1">
-                  <MapPin hanging={15} width={15}/>
+                  <MapPin height={15} width={15} />
                   <span>{currentLead.location}</span>
                 </div>
               </div>
@@ -102,12 +92,27 @@ const LeadCard: React.FC<Props> = ({ lead, setShowAssignModal }) => {
               <div className="flex items-center gap-2">
                 {currentLead.unlocked ? (
                   <>
-                    <button
-                      className="border border-[#A16207] text-[#A16207] px-3 py-1 rounded-2xl text-sm font-medium"
-                      onClick={() => openAssignModal(currentLead)}
-                    >
-                      Assign
-                    </button>
+                    {currentLead.assignedTo ? (
+                      <div className="flex items-center gap-2.5 text-sm text-gray-400 bg-[#EEEEEE] mt-1 font-semibold px-3 py-1.5 rounded-2xl">
+                        <Image
+                          alt="icon"
+                          src="/user.png"
+                          height={24}
+                          width={24}
+                          className="rounded-full bg-gray-400"
+                        />
+                        Assigned
+                        <span>{currentLead.assignedTo}</span>
+                      </div>
+                    ) : (
+                      <button
+                        className="border border-[#A16207] text-[#A16207] px-3 py-1 rounded-2xl text-sm font-medium"
+                        onClick={() => setShowAssignModal(true)}
+                      >
+                        Assign
+                      </button>
+                    )}
+
                     <button className="border border-[#A16207] text-[#A16207] px-3 py-1 rounded-2xl text-sm font-medium">
                       View Details
                     </button>
@@ -166,23 +171,17 @@ const LeadCard: React.FC<Props> = ({ lead, setShowAssignModal }) => {
               </div>
             ) : (
               <>
-                <div className="flex items-center gap-1 text-green-500">
-                  <span className="w-2 h-2 bg-green-500 rounded-full"></span>
-                  <span>{currentLead.source}</span>
-                </div>
                 <div className="flex items-center gap-1">
                   <Users size={14} />
                   <span>{currentLead.groupName}</span>
                 </div>
+                <div className="flex items-center gap-1 text-green-500">
+                  <span className="w-2 h-2 bg-green-500 rounded-full"></span>
+                  <span>{currentLead.source}</span>
+                </div>
               </>
             )}
           </div>
-
-          {currentLead.assignedTo && (
-            <div className="text-sm text-gray-500 mt-1">
-              Assigned to: {currentLead.assignedTo}
-            </div>
-          )}
         </div>
       </div>
     </div>
