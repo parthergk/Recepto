@@ -42,7 +42,7 @@ const LeadsList: React.FC<Props> = ({ organization, setShowAssignModal }) => {
   }, [organization]);
 
   return (
-    <div className="space-y-4">
+    <div className="space-y-4 px-10">
       {leads.map((lead) => (
         <LeadCard
           key={lead.id}
