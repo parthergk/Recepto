@@ -4,7 +4,7 @@ import {
   Search,
 } from "lucide-react";
 import Image from "next/image";
-import React, { ReactHTMLElement } from "react";
+import React from "react";
 
 interface UserInt{
     id: number;

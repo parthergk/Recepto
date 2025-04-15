@@ -17,22 +17,9 @@ interface UserInt{
 export default function Home() {
   const [loggedIn, setLoggedIn] = useState<boolean>(false);
   const [currentUser, setCurrentUser] = useState<null | UserInt>(null);
-  const [organization,setOrganization] = useState<string>('');
   const [isLogutOpne, setIsLogutOpen] = useState<boolean>(false);
 
   useEffect(() => {
-      const storedUser = localStorage.getItem('receptoCurrentUser');
-      
-      if (storedUser) {
-        const user = JSON.parse(storedUser);
-        setCurrentUser(user);
-        setLoggedIn(true);
-        setOrganization(user.organization);
-      } else {
-        loginprompt();
-      }
-    }, []);
-  
     const loginprompt = () => {
       const username = prompt("Enter username:");
       const password = prompt("Enter password:");
@@ -47,13 +34,22 @@ export default function Home() {
         setCurrentUser(user);
         setLoggedIn(true);
         localStorage.setItem('receptoCurrentUser', JSON.stringify(user));
-        setOrganization(user.organization);
       } else {
         alert("Invalid login. Please try again.");
         loginprompt();
       }
     };
-
+  
+    const storedUser = localStorage.getItem('receptoCurrentUser');
+    if (storedUser) {
+      const user = JSON.parse(storedUser);
+      setCurrentUser(user);
+      setLoggedIn(true);
+    } else {
+      loginprompt();
+    }
+  }, []);
+  
   if (!loggedIn) {
     return (
       <div className="flex items-center justify-center h-screen text-5xl font-semibold text-[#667085] bg-white">
