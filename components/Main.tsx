@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import FiltersBar from "./FiltersBar";
 import LeadsList from "./LeadsList";
 import AssignLead from "./AssignLead";
+import Filter from "./Filter";
 
 interface Props {
   organization: string;
@@ -17,6 +18,7 @@ interface TeamMember {
 
 const Main: React.FC<Props> = () => {
   const [showAssignModal, setShowAssignModal] = useState(false);
+  const [isFilterOpen, setIsFilterOpen] = useState(false)
 
   const teamMembers: TeamMember[] = [
     {
@@ -54,7 +56,8 @@ const Main: React.FC<Props> = () => {
   return (
     <div className="flex flex-col min-h-screen bg-gray-50">
       <div className="flex-grow">
-        <FiltersBar />
+        <FiltersBar setIsFilterOpen={setIsFilterOpen}/>
+        {isFilterOpen && <Filter isOpen={isFilterOpen} onClose={setIsFilterOpen}/>}
         <LeadsList
           setShowAssignModal={setShowAssignModal}
         />
