@@ -4,7 +4,6 @@ import FiltersBar from "./FiltersBar";
 import LeadsList from "./LeadsList";
 import AssignLead from "./AssignLead";
 import Filter from "./Filter";
-import Logout from "./Logout";
 
 
 interface TeamMember {

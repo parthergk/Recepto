@@ -1,7 +1,7 @@
 "use client"
 
 import { useState } from "react"
-import { X, Search, SlidersHorizontal, ScrollTextIcon } from "lucide-react"
+import { X, Search, SlidersHorizontal } from "lucide-react"
 
 function Filter({ isOpen, onClose }: { isOpen: boolean; onClose: React.Dispatch<React.SetStateAction<boolean>> }) {
   const [activeCategory, setActiveCategory] = useState("Location")

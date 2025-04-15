@@ -1,8 +1,6 @@
 import {
-  Building,
   Building2,
   ChevronDown,
-  MoveDown,
   Search,
 } from "lucide-react";
 import Image from "next/image";
