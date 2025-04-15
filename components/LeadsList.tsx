@@ -25,7 +25,7 @@ interface Props {
 
 const LeadsList: React.FC<Props> = ({ setShowAssignModal }) => {
   const [leads, setLeads] = useState<Lead[]>([]);
-
+  
   useEffect(() => {
     const mockLeads = generateLeads();
     setLeads(mockLeads);
@@ -63,6 +63,7 @@ function generateLeads(): Lead[] {
       score: Math.floor(Math.random() * 101),
       liked: null,
       unlocked: false,
+      assignedTo: i === 1 ? "Mark" : undefined,
     });
   }
 

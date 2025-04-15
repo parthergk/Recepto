@@ -19,7 +19,7 @@ const AssignLead: React.FC<Props> = ({
   teamMembers
 }) => {
   const [selectedMemberId, setSelectedMemberId] = useState<number | null>(null);
-
+  
   function assignLead(memberId:number){
     setSelectedMemberId(memberId)
     setShowAssignModal(false)

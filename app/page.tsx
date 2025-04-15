@@ -3,6 +3,7 @@ import Header from "@/components/Header";
 import SideBar from "@/components/SideBar";
 import { useEffect, useState } from "react";
 import Main from "@/components/Main";
+import Logout from "@/components/Logout";
 
 interface UserInt{
     id: number;
@@ -17,6 +18,7 @@ export default function Home() {
   const [loggedIn, setLoggedIn] = useState<boolean>(false);
   const [currentUser, setCurrentUser] = useState<null | UserInt>(null);
   const [organization,setOrganization] = useState<string>('');
+  const [isLogutOpne, setIsLogutOpen] = useState<boolean>(false);
 
   useEffect(() => {
       const storedUser = localStorage.getItem('receptoCurrentUser');
@@ -62,12 +64,13 @@ export default function Home() {
 
   return (
     <div className="flex h-screen bg-[#F7F8FA]">
-      <SideBar />
+      <SideBar setIsLogutOpen={setIsLogutOpen} />
       <div className="flex-1 flex flex-col overflow-hidden">
         <Header currentUser={currentUser} />
         <main className="flex-1 overflow-auto">
-          <Main organization={organization}/>
+          <Main/>
         </main>
+        {isLogutOpne && <Logout isOpen={isLogutOpne} onClose={setIsLogutOpen}/>}
       </div>
     </div>
   );

@@ -4,10 +4,8 @@ import FiltersBar from "./FiltersBar";
 import LeadsList from "./LeadsList";
 import AssignLead from "./AssignLead";
 import Filter from "./Filter";
+import Logout from "./Logout";
 
-interface Props {
-  organization: string;
-}
 
 interface TeamMember {
   id: number;
@@ -16,7 +14,7 @@ interface TeamMember {
 }
 
 
-const Main: React.FC<Props> = () => {
+const Main = () => {
   const [showAssignModal, setShowAssignModal] = useState(false);
   const [isFilterOpen, setIsFilterOpen] = useState(false)
 

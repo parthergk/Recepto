@@ -1,9 +1,13 @@
-import React from 'react'
+import React, { useState } from 'react'
 import  Link from "next/link"
 import { ChartPie, Home, Settings } from 'lucide-react'
 import Image from 'next/image'
+interface Props {
+  setIsLogutOpen: React.Dispatch<React.SetStateAction<boolean>>;
+}
 
-const SideBar = () => {
+const SideBar:React.FC<Props> = ({setIsLogutOpen}) => {
+
   return (
     <div className="w-[240px] bg-white border-r border-[#edeff2] flex flex-col"><div className="p-4 border-b border-[#edeff2]">
     <div className="flex items-center justify-center">
@@ -26,7 +30,8 @@ const SideBar = () => {
   <div className="py-4 px-6 pt-6">
   <h1 className=' text-[#5C5E64] text-sm my-2'>MAIN</h1>
     <button
-      className="flex items-center gap-3 text-[#5c5e64] w-full px-3 py-2 rounded-md hover:bg-[#f7f8fa]"
+      className="flex items-center gap-3 text-[#5c5e64] w-full px-3 py-2 rounded-md hover:bg-[#f7f8fa] hover:cursor-pointer"
+    onClick={()=>setIsLogutOpen(true)}
     >
       <Settings size={18} className="text-[#5c5e64]" />
       <span>Logout</span>

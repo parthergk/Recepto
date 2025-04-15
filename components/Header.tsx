@@ -44,7 +44,7 @@ const Header:React.FC<HeaderProps> = ({currentUser}) => {
           0 credits
         </button>
         <div className=" flex justify-center items-center gap-5 text-[#0E1E30] hover:cursor-pointer">
-          <Image height={40} width={40} alt="logo" src="/user.png" />
+          <Image height={40} width={40} alt="logo" src="/user.png" className=" rounded-full bg-gray-400" />
           <div className=" flex flex-col ">
             <h1>{currentUser?.name}</h1>
             <p className=" text-[#8C93A6]">Admin</p>
